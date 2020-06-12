@@ -1,8 +1,8 @@
 Greedy algo Application :
-Sorting : Selection Sort, Topological Sort
-Priority Queues : Heap Sort
- Prims and Kruskal's Algo
- Shortest Path in Weighted Graph i.e Dijkstra
- Coin Change Problem
- Fractional Knapsack Problem
- Job Scheduling algorithm
+                    Sorting : Selection Sort, Topological Sort
+                    Priority Queues : Heap Sort
+                    Prims and Kruskal's Algo
+                    Shortest Path in Weighted Graph i.e Dijkstra
+                    Coin Change Problem
+                    Fractional Knapsack Problem
+                    Job Scheduling algorithm
