@@ -1,1 +1,38 @@
 
+/*
+We can generate Egyptain Fraction using Greedy Algo . For given number of form nr/dr where dr>nr, find greatest possible unit fraction,then
+resursively solve reaming part.
+Example : 6/14 we first find ceiling of 14/6 i.e 3.
+So first unit fraction becomes 1/3 , then recurisely solve (6/14-1/3) i.e 4/42
+
+*/
+public class EgyptianAlgorithm {
+    public static void main(String[] arg){
+        int nr = 6,dr =14;
+        System.out.print("Egyptian Fraction Representation of "
+        + nr + "/"+dr +" "+"is :");
+        printEgyptian(nr,dr);
+    }
+
+    private static void printEgyptian(int nr, int dr) {
+        // Terminate Condition i.e either numerator or denominator is 0;
+        if(dr == 0|| nr ==0) return;
+
+        //If numerator is divides denominator then fraction in 1/n form
+        if(dr%nr == 0){
+            System.out.print("1/" + dr/nr);
+            return;
+        }
+        //if numerator is more than denominator
+        if(nr>dr){
+            System.out.print(nr/dr +" +");
+            printEgyptian(nr%dr,dr);
+            return;
+        }
+        // if denominator is more then numerator
+        int n = dr/nr+1;
+        System.out.print("1/"+n+"+");
+        printEgyptian(nr*n-dr,dr*n);
+
+    }
+}
