@@ -2,7 +2,9 @@
 import java.util.Arrays;
 import java.util.Comparator;
 
+// Tag : Minimum halls required for class scheduling
 /*
+
       You are given n activities with their start and finish times. Select the maximum number of activities that can be performed by a single person, assuming that a person can 
       only work on a single activity at a time.
       Example 1 : Consider the following 3 activities sorted by
@@ -33,22 +35,25 @@ public class ActivitySelectionProblem {
             {5, 7}, {8, 9}};
 
        // int s[][] = {{0, 5}, {1, 2}, {6, 10}};
+      
+        printMaxActivities(s);
+    }
+
+    private static void printMaxActivities(int[][] start) {
+    
 // 1. Sort Activities according finishing time
         int col= 1;
-        Arrays.sort(s, new Comparator<int[]>() {
+        Arrays.sort(start, new Comparator<int[]>() {
             @Override
             public int compare(int[] arr1, int[] arr2) {
                 if(arr1[col]>arr2[col]) return 1;
                 else return -1;
             }
         });
-
-        printMaxActivities(s);
-    }
-
-    private static void printMaxActivities(int[][] start) {
         int n = start.length;
         int count =1;
+        
+        
 // 2. First Element is always selected
         int i =0,j;
         //System.out.print(start[i][0]+"  " + i + " ");
