@@ -1,1 +1,54 @@
 
+package com.lamresearch.dtocm.greedy.stanadardAlgorithm;
+
+import java.util.Stack;
+
+public class MinimumSwapBracketBalancing {
+    public static void main(String []arg){
+        String str = "[]][][";
+     int Swapcount =    swapCount(str);
+        System.out.println("Total Number of swap count :"+ Swapcount);
+    }
+    public static int swapCount(String str){
+        char ch[] = str.toCharArray();
+// stores total number of left and right brackets encounted
+        int countLeft = 0, countRight = 0;
+        int swap = 0, imbalance = 0;
+
+        for(int i =0;i<str.length();i++) {
+            if (ch[i] == '[' ){
+                countLeft++;
+                if(imbalance > 0)
+                {
+                    // swaps count is last swap count + total
+                    // number imbalanced brackets
+                    swap += imbalance;
+                    // imbalance decremented by 1 as it solved
+                    // only one imbalance of Left and Right
+                    imbalance--;
+                }
+            } else if(ch[i] == ']' )
+            {
+                // increment count of Right bracket
+                countRight++;
+                // imbalance is reset to current difference
+                // between Left and Right brackets
+                imbalance = (countRight-countLeft);
+            }
+        }
+        return swap;
+    }
+
+    private static boolean matchingPair(char ch1, char ch2,Stack stack) {
+        if (ch1 =='[' && ch2 == ']') {
+            stack.pop();
+            return true;
+        }
+        else if (ch1 ==']' && ch2 == '['){
+            stack.pop();
+            return true;
+        }
+            return false;
+        }
+    }
+
