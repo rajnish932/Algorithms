@@ -1,1 +1,73 @@
 
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class InsertBinaryTreeInLevelOrder {
+    static class Node{
+        int key;
+        Node left,right;
+        Node(int key){
+            this.key = key;
+            left = null;
+            right = null;
+        }
+    }
+   static Node root;
+   static Node temp = root;
+    public static void main(String arg[]){
+        root = new Node(10);
+        root.left = new Node(11);
+        root.left.left = new Node(7);
+        root.right = new Node(9);
+        root.right.left = new Node(15);
+        root.right.right = new Node(8);
+
+        System.out.print("Inorder traversal before insertion :");
+        inorder(root);
+
+
+        int key = 12;
+        insert(root,key);
+        System.out.println(" ");
+        System.out.print("Inorder traversal after insertion :");
+        inorder(root);
+
+    }
+
+    private static void insert(Node root, int key) {
+        Queue<Node> q = new LinkedList<Node>();
+        q.add(root);
+
+        // Do level order traversal until we find an empty place
+        while(!q.isEmpty()){
+            //IMPORTANT HAI YE
+            root = q.peek(); // Give head node to root node
+            q.remove();     // Remove the node
+            if(root.left == null){
+                root.left = new Node(key);
+                break;
+            }
+            else q.add(root.left);
+
+            if(root.right == null){
+                root.right = new Node(key);
+                break;
+            }
+                else q.add(root.right);
+
+        }
+    }
+
+    private static void inorder(Node root) {
+        if(root == null)
+            return;
+
+            inorder(root.left);
+            System.out.print(root.key + "-->");
+            inorder(root.right);
+
+
+
+    }
+}
