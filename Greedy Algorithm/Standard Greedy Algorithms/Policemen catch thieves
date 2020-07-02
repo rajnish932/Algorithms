@@ -1,1 +1,63 @@
 
+/*
+* Given an array of size n that has the following specification
+*
+* 1. Each element in the array contains either a policeam or a thief
+* 2. Each police can catch only one thief
+* 3. A policeman can't catch a thief who is more than k units from policeman
+*
+* Example :
+* Input : arr[] = {'P', 'T', 'T', 'P', 'T'},
+            k = 1.
+Output : 2.
+Here maximum 2 thieves can be caught, first
+policeman catches first thief and second police-
+man can catch either second or third thief.
+*
+* Steps:
+* 1. Get the lowest index of policeman p and thief t. Make an allotment
+if |p-t| <= k and increment to the next p and t found.
+2. Otherwise increment min(p, t) to the next p or t found.
+3. Repeat above two steps until next p and t are found.
+4. Return the number of allotments made.
+*
+*
+*
+* */
+
+import java.util.ArrayList;
+
+public class PolicemenCatchThieves {
+    public static void main(String[] args){
+        int k =2;
+        char []ch = new char[] { 'P', 'T', 'T', 'P', 'T' };
+
+        int n = policeThief(ch,k);
+        System.out.print(n+" ");
+    }
+
+// Returns maximum number of thieves that can be caught
+    private static int policeThief(char[] ch, int k) {
+        int res = 0;
+        ArrayList thi = new ArrayList();
+        ArrayList pol = new ArrayList();
+// Store indices in the ArrayList
+     for(int i =0;i<ch.length;i++){
+         if(ch[i] == 'P')
+         { pol.add(i); }
+         else if(ch[i] == 'T'){ thi.add(i);}
+     }
+     int t = 0,p= 0;
+     while(t<thi.size() && p<pol.size()){
+         int val = Math.abs((Integer) thi.get(t) - (Integer) pol.get(p));
+         if( val<=k){
+             res++;
+             t++;
+             p++;
+         }
+         else if((Integer)thi.get(t)<(Integer)pol.get(p)){ t++;}
+          else p++;
+     }
+        return res;
+    }
+}
