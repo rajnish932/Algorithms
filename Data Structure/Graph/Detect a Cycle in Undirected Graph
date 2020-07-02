@@ -1,0 +1,109 @@
+/*
+Many ways to delect a cycle in undirected graph
+1. DFS
+2. BFS
+3. Topological Sort
+4. Disjoint set
+
+Using BFS
+
+
+*/
+
+import java.util.*;
+
+//Data structure to store graph edges
+class Edgee {
+    int src, dest;
+
+    public Edgee(int src, int dest) {
+        this.src = src;
+        this.dest = dest;
+    }
+}
+
+//
+class Graphh {
+    // A List of list to represent an adjacency list
+    List<List<Integer>> adjList = new ArrayList<>();
+
+    // Constructor
+    public Graphh(List<Edgee> edgee, int N) {
+
+// Memory allocation purpose
+        for (int i = 0; i < N; i++) {
+            adjList.add(new ArrayList<>());
+        }
+
+// Add edges to the undirected graph
+
+        for (Edgee edge : edgee) {
+            int src = edge.src;
+            int des = edge.dest;
+            adjList.get(src).add(des);
+            adjList.get(des).add(src);
+        }
+    }
+}
+// Node to store vertex and it's parent info in BFS
+
+class Node {
+    int v, parent;
+
+    public Node(int v, int parent) {
+        this.v = v;
+        this.parent = parent;
+    }
+}
+
+public class CycleUsingBFS {
+    public static void main(String[] args) {
+        //List of graph edges
+
+        List<Edgee> ed = Arrays.asList(
+            new Edgee(1, 2), new Edgee(1, 3), new Edgee(1, 4),
+            new Edgee(2, 5), new Edgee(2, 6), new Edgee(5, 9),
+            new Edgee(5, 10), new Edgee(4, 7), new Edgee(4, 8),
+            new Edgee(7, 11), new Edgee(7, 12), new Edgee(6, 10)
+        );
+        final int N = 13;
+        Graphh graph = new Graphh(ed, N);
+        boolean b = cycleBFS(graph, 1, N);
+        if (b) {
+            System.out.print("Graph contains cycle: ");
+        } else System.out.print("Graph doesn't contain any cycle:");
+    }
+
+    // Perform BFS on graph starting from vertex src and return true of cycle is found in the graph
+// else return false
+    private static boolean cycleBFS(Graphh graph, int src, int N) {
+// Stores vertex is discoverted or not
+        boolean[] discovered = new boolean[N];
+// Mark source vertex as discoverted
+        discovered[src] = true;
+// Create a queue used to do BFS and push source vertex into the queue
+        Queue<Node> q = new ArrayDeque<>();
+        q.add(new Node(src, -1));
+
+// Run till queue is not empty
+        while (!q.isEmpty()) {
+// Pop front node from queue and print it
+            Node node = q.poll();
+// DO for every edge(v -> u)
+            for (int u : graph.adjList.get(node.v)) {
+                if (!discovered[u]) {
+// Construct the queue node containing info about vertex and push it into queue
+                    q.add(new Node(u, node.v));
+
+                } else if (u != node.parent) {
+// Cycle is found
+                    return true;
+                }
+            }
+        }
+
+// No cycle found
+        return false;
+    }
+
+}
