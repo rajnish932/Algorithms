@@ -1,0 +1,27 @@
+	public static boolean DFS(Graph graph, int v,
+					boolean[] discovered, int parent)
+	{
+		// mark current node as discovered
+		discovered[v] = true;
+
+		// do for every edge (v -> w)
+		for (int w : graph.adjList.get(v))
+		{
+			// w is not discovered
+			if (!discovered[w])
+			{
+				if (DFS(graph, w, discovered, v))
+					return true;
+			}
+
+			// w is discovered and w is not a parent
+			else if (w != parent)
+			{
+				// we found a back-edge (cycle)
+				return true;
+			}
+		}
+
+		// No back-edges found in the graph
+		return false;
+	}
