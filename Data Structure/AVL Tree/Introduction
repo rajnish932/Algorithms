@@ -4,3 +4,140 @@ Why AVL Trees?
 Most of the BST operations (e.g., search, max, min, insert, delete.. etc) take O(h) time where h is the height of the BST. 
 The cost of these operations may become O(n) for a skewed Binary tree. If we make sure that height of the tree remains O(Logn) after every insertion and deletion, then 
 we can guarantee an upper bound of O(Logn) for all these operations. The height of an AVL tree is always O(Logn) where n is the number of nodes in the tree 
+
+
+
+
+public class AVLTree {
+    class Node{
+        int data;
+        Node left;
+        Node right;
+        int height;
+        Node(int data){ this.data = data;
+// Put height to 1 to maintain Balancing Factor
+        height = 1;
+        }
+    }
+//1. Insert a node in Tree
+    Node root;
+    public void insert(int data){
+        this.root = insert(root,data);
+    }
+    private Node insert(Node node, int data){
+    if(node == null){
+        Node new_node = new Node(data);
+        return  new_node;
+    }
+        if(data>node.data){
+      node.right =   insert(node.right,data);
+    }
+    else if(data<node.data){
+        node.left = insert(node.left, data);
+
+    }
+// Update node Height
+    node.height =   Math.max(height(node.left),height(node.right)+1);
+    int bf = balancingFactor(node);
+// LL Case but rotate Right
+    if(bf>1 && data<node.left.data )
+        return rightRotate(node);
+// RR Case but rotate Left
+     if(bf<-1 && data>node.right.data)
+          return leftRotate(node);
+// LR Case first Left Rotate and then Right Rotate
+
+        if(bf>1 && data> node.left.data) {
+            node.left = leftRotate(node);
+            return rightRotate(node); }
+// Similarly for RL
+
+       if(bf<-1 && data<node.right.data){
+           node.right = rightRotate(node);
+           return leftRotate(node);
+       }
+
+
+    return node;
+    }
+
+    private Node  leftRotate(Node c) {
+        Node b = c.right;
+         Node T2 = b.left;
+
+        b.left = c;
+        c.right = T2;
+
+        c.height = Math.max(height(c.left),height(c.right) +1);
+        b.height = Math.max(height(b.left),height(b.right)+1);
+
+        return b;
+    }
+
+    //Display Node
+    public void display(){
+        display(root);
+    }
+
+    private void display(Node node) {
+        if(node == null) return;
+        String str = "";
+        if (node.left == null) {
+            str += ".";
+        } else {
+            str += node.left.data;
+        }
+        str += "=>" + node.data + " <= ";
+
+        if (node.right == null) {
+            str += ".";
+        } else {
+            str += node.right.data;
+        }
+        System.out.println(str);
+        display(node.left);
+        display(node.right);
+    }
+    private int height(Node node){
+        if(node == null) return 0;
+        return node.height;
+
+    }
+
+    private Node rightRotate(Node c){
+
+// Problem with Node C i.e Balancing Factor is more than 0,-1,1
+// Get value before rotation
+        Node b = c.left;
+        Node T3 = b.right;
+// Rotate the node
+
+       b.right = c;
+       c.left = T3;
+// Height Updation
+          c.height =  Math.max(height(c.left),height(c.right) +1);
+          b.height =  Math.max(height(b.left),height(b.right) +1);
+
+       return b;
+    }
+
+private int balancingFactor(Node node){
+        if(node == null) return 0;
+        return height(node.left) - height(node.right);
+
+}
+
+    public static void main(String[] args){
+        AVLTree tree = new AVLTree();
+        tree.insert(20);
+        tree.insert(25);
+        tree.insert(30);
+        tree.insert(5);
+        tree.insert(15);
+        tree.insert(27);
+        tree.insert(19);
+        tree.insert(10);
+        tree.display();
+    }
+}
+
