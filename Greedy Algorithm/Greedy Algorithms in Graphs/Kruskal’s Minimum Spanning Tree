@@ -10,6 +10,11 @@ foreach (u, v) in G.E ordered by weight(u, v), increasing:
 return A
 
 */
+ Steps 1:
+
+1. Sort all the edges in non-decreasing order of their weight.
+2. Pick the smallest edge. Check if it forms a cycle with the spanning tree formed so far. If cycle is not formed, include this edge. Else, discard it.
+3. Repeat step#2 until there are (V-1) edges in the spanning tree.
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -42,6 +47,8 @@ public class DisjointSet {
         }
 
         public void kruskalMST(){
+        
+ // Step 1:      
             PriorityQueue<Edge> pq = new PriorityQueue<>(allEdges.size(), Comparator.comparingInt(o -> o.weight));
 
             //add all the edges to priority queue, //sort the edges on weights
