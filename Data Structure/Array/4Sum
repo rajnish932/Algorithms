@@ -1,0 +1,62 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Sum4 {
+    public static void main(String[] arg){
+        int nums[] = {1,-2,-5,-4,-3,3,3,5};
+
+        int target = -11;
+        List<List<Integer>> list =  new ArrayList<>();
+        list = fourSum(nums, target);
+        System.out.println(list);
+
+    }
+
+        public static List<List<Integer>> fourSum(int[] nums, int target) {
+            int n = nums.length;
+            List<List<Integer>> list = new ArrayList<>();
+                    Arrays.sort(nums);
+
+                    if(n<4 ) return list;
+
+// Fix first two elements
+                    for(int i = 0;i<n-3;i++){
+
+                        for(int j = i+1;j<n-2; j++){
+
+// Initialize reamining two index
+                            int start = j+1;
+                            int end  = n-1;
+                            int newtarget = target- (nums[i]+nums[j]);
+// Fix reamining two elements
+
+                            while(start<end){
+                                if(nums[start]+nums[end] == newtarget){
+
+                                    ArrayList list1 = new ArrayList<>();
+                                    list1.add(nums[i]);
+                                    list1.add(nums[j]);
+                                    list1.add(nums[start]);
+                                    list1.add(nums[end]);
+
+                                    list.add(list1);
+                                    start++;
+                                    end--;
+
+                                } else if(nums[start]+nums[end] < newtarget){
+                                    start++;
+
+                                } else { end--;}
+
+                            }
+
+                        }
+                    }
+
+                    List<List<Integer>> newlist =  list.stream().distinct().collect(Collectors.toList());
+
+                    return newlist;
+
+                }
+            }
+            
