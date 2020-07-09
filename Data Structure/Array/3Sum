@@ -1,5 +1,7 @@
 
 
+package com.lamresearch.dtocm.cProgramming.array;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,15 +21,26 @@ public class Sum3 {
 
             if (len < 3) {return result;}
 
-            // Sort the array
+// Sort the array in increasing order, using library
+            // function for quick sort
+
             Arrays.sort(num);
 
+/* Now fix the first 1 elements one by one and find the other two elements */
             for (int i = 0; i < len - 2; i++) {
+
+// Terminating Condition
                 if (num[i] > 0) break;
                 if (i == 0 || num[i] > num[i - 1]) {
                     int target = 0 - num[i];
+
+// Initialize two variables as indexes of the start and end elements in the remaining elements
+                    
                     int start = i + 1;
                     int end = len - 1;
+
+// To find the remaining two elements, move the index variables (start & end) toward each other.
+
                     while (start < end) {
                         if (num[start] + num[end] == target) {
                             ArrayList<Integer> elem = new ArrayList<Integer>();
@@ -39,7 +52,7 @@ public class Sum3 {
                             start++;
                             end--;
 
-                            // Remove duplicated results
+// Remove duplicated results
                             while (start < end && num[end + 1] == num[end]) end--;
                             while (start < end && num[start - 1] == num[start]) start++;
                         } else
