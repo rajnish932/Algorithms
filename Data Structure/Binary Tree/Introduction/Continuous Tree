@@ -1,0 +1,55 @@
+package com.lamresearch.dtocm.cProgramming.binaryTree;
+
+
+/**
+ * A tre is continous tree if in each root to leaf path ,
+ * absolute difference between keys of two adjacent is 1
+ * */
+public class ContinousTree {
+    static class Node {
+        int data;
+        Node left, rigth;
+        Node(int data){
+            this.data = data;
+            left = null;
+            rigth = null;
+        }
+    }
+    public static void main(String []arg){
+        Node node = new Node(3);
+        node.left = new Node(2);
+        node.rigth = new Node(4);
+        node.left.left = new Node(10);
+        node.left.rigth = new Node(3);
+        node.rigth.left = new Node(5);
+        boolean b= treeContinous(node);
+        if(b) System.out.print("Continous Tree :");
+        else System.out.print("NOt");
+
+    }
+
+    private static boolean treeContinous(Node node) {
+   // If next node is empty then return true
+        if(node == null) return true;
+        // if current node is leaf node then return true
+
+        if(node.left == null && node.rigth == null) return true;
+        // If left subtree is empty, then only check rigth sub tree
+        if(node.left == null){
+            return ((Math.abs(node.data - node.rigth.data) == 1) &&
+                treeContinous(node.rigth));
+        }
+        // If rigth subtree is empty , then only check for left subtree
+        if(node.rigth == null) {
+            return ((Math.abs(node.data - node.left.data) == 1) &&
+                treeContinous(node.left));
+        }
+        // If both left and right subtrees are not empty, check
+        // everything
+        return Math.abs(node.data - node.left.data)==1 &&
+            Math.abs(node.data - node.rigth.data)==1 &&
+            treeContinous(node.left) &&
+            treeContinous(node.rigth);
+
+    }
+}
