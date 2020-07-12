@@ -1,0 +1,43 @@
+package com.lamresearch.dtocm.cProgramming.greedy.algorithmInArray;
+/*****
+ * Given an array of size n and a number k. We must modify array K number of times. Here modify array means in each operation
+ * we can replace any array element arr[i] by -arr[i].We need to perform this operation in such a way that after K operations, sum of array must be maximum?
+ */
+/***
+ * Solution:
+ * we just have to replace the minimum element arr[i] in array by -arr[i] for current operation. In this way we can make sum of array maximum after K operations.
+ * */
+public class MaxArraySumAfterKNegatation {
+    public static void main(String []arg){
+        int arr[] = {-2, 0, 5, -1, 2};
+        int k = 4;
+        int sum = maxSum(arr, k);
+        System.out.print(sum);
+    }
+
+    private static int maxSum(int[] arr, int k) {
+        int sum = 0;
+        int n = arr.length;
+        int min = Integer.MAX_VALUE;
+        int index = -1;
+
+  // Modify array K number of times
+        for(int i = 0;i<k;i++){
+    // Find min element in array & modify it.
+             for(int j = 0;j<n-1;j++){
+                 if(arr[j]<min){
+                     min = arr[j];
+                     index = j;
+                 }
+             }
+  // this the condition if we find 0 as
+            // minimum element, so it will useless to
+            // replace 0 by -(0) for remaining operations
+             if(min == 0) break;
+             arr[index] = -arr[index];
+        }
+        for(int i =0;i<n;i++){ sum += arr[i];}
+
+        return sum;
+    }
+}
