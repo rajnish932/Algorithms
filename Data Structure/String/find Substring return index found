@@ -1,0 +1,37 @@
+package com.lamresearch.dtocm.cProgramming.string;
+
+public class SubtringOfAnotherString {
+    public static void main(String []args){
+        String str1 = "geeksforgeeks";
+        String str2 = "for";
+        int sub = subString(str1, str2);
+        System.out.print("Substring at index :"+ sub);
+    }
+
+    private static int subString(String str1, String str2) {
+        int count = 0;
+        int n1 = str1.length();
+        int n2 = str2.length();
+        if(n1<n2) return -1;
+        if(n1 == n2) {
+            int len = n1;
+            if(str1.equals(str2));{ return n1;}
+        }
+        for(int i= 0;i<n1-n2; i++){
+//Check First charcter match or not. Until find first character match wait
+            if(str1.charAt(i)==str2.charAt(0)){
+                int matchLength=1;
+                for(int j=1;j<str2.length();j++){
+                    if(str1.charAt(i+j)==str2.charAt(j)){
+                        //break;
+                        matchLength++;
+                    }
+
+                }
+                if(matchLength==str2.length())  return  matchLength;
+            }
+        }
+        return -1;
+
+    }
+}
