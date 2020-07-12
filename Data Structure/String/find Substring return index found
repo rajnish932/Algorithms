@@ -22,6 +22,8 @@ public class SubtringOfAnotherString {
             if(str1.charAt(i)==str2.charAt(0)){
                 int matchLength=1;
                 for(int j=1;j<str2.length();j++){
+                    
+ // First value is already mathced , this is time to match both value simultaneouly                   
                     if(str1.charAt(i+j)==str2.charAt(j)){
                         //break;
                         matchLength++;
