@@ -1,1 +1,68 @@
+package com.lamresearch.dtocm.cProgramming.array;
+
+public class MinProductSubsetArray {
+    public static void main(String[] arg) {
+        int arr[] = {-1, -1, -2, 4, 3};
+        int pro = product(arr);
+        System.out.print(pro);
+    }
+
+    private static int product(int[] arr) {
+        int product = 1;
+        int n = arr.length;
+ /*
+ 1. Find count of negative numbers
+ 2. Count no of Zeros,
+ 3. max valued Negative number
+ 4. min valued of positive number
+ 5. Product of non-zero numbers
+ *
+ * */
+        int negMax = Integer.MIN_VALUE;
+        int postMin = Integer.MIN_VALUE;
+        int count_neg = 0;
+        int count_zero = 0;
+
+        for (int i = 0; i < n; i++) {
+            // Count number of Zero
+            if (arr[i] == 0) {
+                count_zero++;
+                continue;
+            }
+            //Count neg number & find max negative
+            if (arr[i] < 0) {
+                count_neg++;
+                negMax = Math.max(negMax, arr[i]);
+            }
+            //Find min Positive number
+            if (arr[i] > 0 && arr[i] < postMin) {
+                postMin = arr[i];
+                postMin = Math.min(postMin, arr[i]);
+                System.out.print(postMin+" ");
+            }
+                product *= arr[i];
+            }
+
+        // if there are all zeroes
+        // or zero is present but no
+        // negetive number is present
+        if (count_zero == n || (count_neg == 0 && count_zero > 0))
+            return 0;
+
+        // If there are all positive
+        if (count_neg == 0)  return postMin;
+        // If there are even number except
+        // zero of negative numbers
+        if (count_neg % 2 == 0 && count_neg != 0)
+        {
+
+            // Otherwise result is product of
+            // all non-zeros divided by maximum
+            // valued negative.
+            product = product / negMax;
+        }
+
+        return  product;
+    }
+}
 
