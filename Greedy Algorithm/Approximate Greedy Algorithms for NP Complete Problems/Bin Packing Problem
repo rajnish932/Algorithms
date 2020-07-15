@@ -1,0 +1,41 @@
+package com.lamresearch.dtocm.cProgramming.greedy.NPCompleateProblem;
+/*
+Given n items of different weights and bins each of capacity c, assign each item to a bin such that number of total used bins is minimized. It may be assumed that all items have weights smaller than bin capacity.
+Example:
+
+Input:  wieght[]       = {4, 8, 1, 4, 2, 1}
+        Bin Capacity c = 10
+Output: 2
+We need minimum 2 bins to accommodate all items
+First bin contains {4, 4, 2} and second bin {8, 2}
+
+
+Applications
+
+Loading of containers like trucks.
+Placing data on multiple disks.
+Job scheduling.
+Packing advertisements in fixed length radio/TV station breaks.
+Storing a large collection of music onto tapes/CD’s, etc.
+* */
+public class BinPackingProblem {
+    public static void main(String[] args){
+        int weight[] = {2,5,4,7,1,3,8};
+        int capacity = 10;
+        System.out.print("Number of bins required "+ binsRequired(weight,capacity));
+    }
+
+    private static int binsRequired(int[] weight, int capacity) {
+        int n =weight.length;
+        int count = 0;
+        int rem_capaity = capacity;
+        for(int i= 0;i<n;i++){
+            if(weight[i]>rem_capaity){
+                count++;
+                rem_capaity = capacity-weight[i];
+            }
+            rem_capaity = rem_capaity-weight[i];
+        }
+        return count;
+    }
+}
