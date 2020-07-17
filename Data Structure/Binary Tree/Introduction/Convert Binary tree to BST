@@ -1,0 +1,137 @@
+/*****
+ * Minimum swap required to convert binary tree to binary search tree
+ * The idea is to use the fact that inorder traversal of Binary Search Tree is in increasing order of their value.
+ * So, find the inorder traversal of the Binary Tree and store it in the array and try to sort the array. The minimum number of swap required to get the array sorted will be the answer.
+ * Please refer below post to find minimum number of swaps required to get the array sorted.
+ *
+ *
+ *
+ * ******/
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class MinimumSwapRequiredBTintoBST {
+    //Node of binary tree
+    public static class Node{
+        int data;
+        Node left;
+        Node right;
+        public Node(int data){
+            this.data = data;
+            this.left = null;
+            this.right = null;
+        }
+    }
+    public static void main(String []arg){
+        root = new Node(1);
+        root.left = new Node(2);
+        root.right = new Node(3);
+        root.left.left = new Node(4);
+        root.left.right = new Node(5);
+        root.right.left = new Node(6);
+        root.right.right = new Node(7);
+        System.out.print("Tree traverasl i.e inorder traversal :");
+        inorder(root);
+        System.out.println(" ");
+        MinimumSwapRequiredBTintoBST bst = new MinimumSwapRequiredBTintoBST();
+        bst.convertBTBST(root);
+    }
+
+    private static void inorder(Node root) {
+        if(root == null) return;
+        inorder(root.left);
+        System.out.print(root.data + "  ");
+        inorder(root.right);
+
+    }
+
+   static Node root;
+    int[] treeArray;
+    int index = 0;
+
+// convert binary tree to binary search tree
+    public void convertBTBST(Node node){
+        int treeSize = elementsOfTree(node);
+        treeArray = new int[treeSize];
+        convertBtToArray(node);
+        // Sort Array ,Count number of swap
+
+        int minSwap = minimumswap(treeArray);
+        System.out.println("Minmum swap required to form BT to BST :" +minSwap);
+    }
+
+    private static int minimumswap(int[] arr) {
+        int n =arr.length;
+        // Create two arrays and use as pairs where first
+        // is element and secount array as position of first element
+        ArrayList<Pair<Integer, Integer>> arrpos =
+            new ArrayList<Pair<Integer, Integer>>();
+        // Assign the value
+        for(int i =0;i<n;i++)
+        {
+            arrpos.add(new Pair<Integer, Integer>(arr[i],i));
+        }
+// Sort the array by array element values to get right
+//position of every element as the elements of secound array
+
+        arrpos.sort(new Comparator<Pair<Integer, Integer>>() {
+            @Override
+            public int compare(Pair<Integer, Integer> o1, Pair<Integer, Integer> o2) {
+                return o1.getKey()-o2.getKey();
+            }
+        });
+// To keep track of visited elements .Initially all elements as not visited so put them as false
+        int ans = 0;
+        boolean []visited = new boolean[n];
+        Arrays.fill(visited, false);
+        // Traverse array elements
+        for(int i =0;i<n;i++){
+            // Already swapped and corrected or already present at correct pos
+            if(visited[i] || arrpos.get(i).getValue() == i)
+                continue;
+            // Find out the number of nodes in this cycle and add in ans
+            int cycle_size = 0;
+            int j =i;
+            while(!visited[j]){
+                visited[j] = true;
+                j = arrpos.get(j).getValue();
+                cycle_size++;
+            }
+            if(cycle_size>0){
+                ans += cycle_size-1;
+            }
+        }
+        return ans;
+    }
+
+    private void convertBtToArray(Node node) {
+        // Check whether tree is empty or not.
+        if (root == null) {
+            System.out.println("Tree is empty:");
+            return;
+        }
+    else{
+        if(node.left != null) {
+         convertBtToArray(node.left);}
+            treeArray[index] = node.data;
+            index++;
+            if(node.right != null){
+                convertBtToArray(node.right);
+            }
+
+        }
+    }
+    private int elementsOfTree(Node node) {
+        int height = 0;
+        if(node == null) return 0;
+        else{
+            height = elementsOfTree(node.left )+ elementsOfTree(node.right)+1;
+        }
+        return height;
+    }
+
+
+}
