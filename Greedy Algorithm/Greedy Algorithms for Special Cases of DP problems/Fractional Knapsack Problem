@@ -1,1 +1,83 @@
 
+
+import java.util.Arrays;
+import java.util.Comparator;
+
+/***
+ * Fractioanl Knapsack Problem
+ * Given weights and value of n items , we need to put these items in a knapsack
+ * of capacity W to get the maximum total value in the knapsack
+ *
+ * Example :
+ * Items as (value , weight) pairs :
+ * arr[] = {{60,10},{100,20},{120,30}}
+ * Capacity W = 50;
+ * Output: 240
+ *
+ *
+ * Solution :
+ * 1. Calculate the ratio value/weight for each item
+ * 2. Sort them on basis of this ratio
+ * 3. Take item with highest ratio and add them
+ * 4. Until we can't add the next item as a whole.
+ * Time complexity :- O(nlogn).
+ *
+ * */
+
+public class FractionalKnapsack {
+
+    public static void main(String [] arg){
+        int []wt = {10,40,20,30};
+        int []val = {60,40,100,120};
+        int capacity = 50;
+        double maxvalue = getMaxValue(wt,val,capacity);
+        System.out.println(maxvalue);
+    }
+   static class ItemValue{
+        Double cost;
+        double wt, val,index;
+
+       public ItemValue(double wt, double val, double index) {
+           this.wt = wt;
+           this.val = val;
+           this.index = index;
+           cost = new Double(val/wt);
+       }
+   }
+    private static double getMaxValue(int[] wt, int[] val, int capacity) {
+        ItemValue []ival = new ItemValue[wt.length];
+        for(int i = 0;i<wt.length ;i++){
+            ival[i] = new ItemValue(wt[i],val[i],i);
+        }
+ // Sorting items by value
+     Arrays.sort(ival, new Comparator<ItemValue>() {
+             @Override
+             public int compare(ItemValue o1, ItemValue o2) {
+                 return o2.cost.compareTo(o1.cost);
+             }
+         }
+
+     );
+        double Tvalue = 0d;
+        for(ItemValue i:ival){
+            int curwt = (int) i.wt;
+            int curVal = (int)i.val;
+            if(capacity - curwt >= 0){
+ // this weight can be picked
+          capacity = capacity-curwt;
+          Tvalue += curVal;
+            }
+ // Item can't be picked whole
+         else{
+             double fraction = (double)capacity/(double)curwt;
+             Tvalue += curVal*fraction;
+             capacity = (int)(capacity -(curwt*fraction));
+             break;
+            }
+
+        }
+        return Tvalue;
+
+    }
+
+}
