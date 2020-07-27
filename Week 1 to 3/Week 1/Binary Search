@@ -1,0 +1,46 @@
+ /*
+ Search a sorted array by repeatedly dividing the search interval in half.If value of the search key is less then the item
+ in middle of the interval ,narrow the interval to lower half.
+ OtherWise narrow to upper half. Repeated check until the value is found or interval is empty
+ Time Complexity :  O(logn)
+ 
+ T(n) = T(n/2)+C;
+ 
+ 
+ 
+ ****/
+ 
+ 
+ package com.lamresearch.dtocm.cProgramming.binarySearch;
+
+public class BinarySearch {
+    public static void main(String []arg){
+        int arr[]  = {2,3,4,10,40};
+        int x = 10;
+        int result  = Searchh(arr,x);
+        if(result == -1){System.out.println("Not Found");}
+        else{
+            System.out.println("Element found at " + "index  " +result);
+        }
+    }
+
+    private static int Searchh(int[] arr, int x) {
+        int left = 0, right = arr.length-1;
+        while(left<= right){
+            int mid = (left+right)/2;
+ // Check if x is present at m
+            if(arr[mid] == x) {
+                return mid;
+            }
+// If x  greater , ignore left half
+          if(arr[mid]<x) {
+               left = mid+1;
+          }
+          else {
+              right = mid-1;
+          }
+
+        }
+        return -1;
+    }
+}
