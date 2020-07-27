@@ -1,0 +1,5 @@
+Searching Algorithm are designed to check for element or retrive an  element from any data 
+structure where it is stored.Based on type of searching operation two type of searching algo:
+
+1. Sequential Search  :- list or array is traversed sequentially & every element is checked  like Linear Search
+2. Interval Search    :- Searching in sorted Data structure.they are more efficientlike Binary Search
