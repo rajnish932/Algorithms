@@ -1,0 +1,74 @@
+
+
+public class MergeSort {
+    public static void main(String []arg){
+        int arr[] = { 12, 11, 13, 5, 6, 7 };
+        int A[]= sortMerge(arr,0,arr.length-1);
+        for(int i:A){
+            System.out.print(i+"  ");
+        }
+    }
+
+    private static int[] sortMerge(int[] arr,int l,int r) {
+        if(l<r){
+            int mid = (l+r)/2;
+  // Sort first half and 2nd half
+            sortMerge(arr,l,mid);
+            sortMerge(arr,mid+1,r);
+
+ // Merge two sorted half
+            merge(arr,l,mid,r);
+        }
+        return arr;
+
+    }
+
+    private static void merge(int[] arr, int l, int mid, int r) {
+// Find sizes of two subarrays to be merged
+   int n1 = mid-l+1;
+   int n2 = r-mid;
+
+// Create two temp array for left and Right
+
+   int left[] = new int[n1];
+   int right[] = new int[n2];
+
+// Copy data to temp array
+   for(int i= 0;i<n1;i++) {
+       left[i] = arr[l + i];
+   }
+    for(int j = 0;j<n2;j++){
+     right[j] = arr[mid+1+j];
+    }
+
+// Merge two temp array
+   // Initial index of first and secount subarray
+   int i =0, j =0;
+   // Initial index of merged subarray
+   int k =l;
+   while (i<n1 && j<n2){
+       if(left[i]<= right[j]){
+           arr[k] = left[i];
+           i++;
+       }
+       else{
+           arr[k] =  right[j];
+           j++;
+       }
+       k++;
+   }
+ // Copy remaining element of Left[] , if any
+     while(i<n1){
+         arr[k] = left[i];
+         i++;
+         k++;
+     }
+// Copy Remaining element of Right[] , if any
+    while(j<n2){
+        arr[k] = right[j];
+        j++;
+        k++;
+    }
+
+    }
+}
