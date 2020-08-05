@@ -1,0 +1,73 @@
+package com.lamresearch.dtocm.cProgramming.matrix;
+
+import java.util.ArrayList;
+
+public class SpiralFrom {
+    public static void main(String[] arg) {
+        int mat[][] = {{1, 1, 1, 1},
+            {2, 2, 2, 2},
+            {3, 3, 3, 3},
+            {4, 4, 4, 4}};
+
+        System.out.println("Before Spiral  of Matrix :");
+        for (int i = 0; i < mat.length; i++) {
+            for (int j = 0; j < mat[0].length; j++) {
+                System.out.print(mat[i][j] + "  ");
+            }
+            System.out.println("");
+        }
+
+        int transpos[] = spiralMatrix(mat);
+        System.out.println("After Spiral  of Mateix: ");
+        for (int i = 0; i < transpos.length; i++) {
+            System.out.print(transpos[i] + "  ");
+        }
+    }
+
+    private static int[] spiralMatrix(int[][] a) {
+        int row = a.length;
+        int col = a[0].length;
+        int result[] = new int[row*col];
+        ArrayList<Integer> list = new ArrayList<>();
+        int i, k = 0, l = 0;
+		/* k - starting row index
+		row ending row index
+		l - starting column index
+		col - ending column index
+		i - iterator
+		*/
+
+        while (k < row && l < col) {
+            // Print the first row from the remaining rows
+            for (i = l; i < col; ++i) {
+                list.add(a[k][i]);
+            }
+            k++;
+
+            // Print the last column from the remaining columns
+            for (i = k; i < row; ++i) {
+                list.add(a[i][col - 1]);
+            }
+            col--;
+
+            // Print the last row from the remaining rows */
+            if (k < row) {
+
+                for (i = col - 1; i >= l; --i) {
+                    list.add(a[row - 1][i]);
+                }
+                row--;
+            }
+
+            // Print the first column from the remaining columns */
+            if (l < col) {
+                for (i = row - 1; i >= k; --i) {
+                    list.add(a[i][l] );
+                }
+                l++;
+            }
+            }
+        return list.stream().mapToInt(kk ->(int)kk).toArray();
+        }
+        }
+
