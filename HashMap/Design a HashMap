@@ -1,0 +1,105 @@
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+public class MyHashMap {
+     static class Entry{
+         private int key;
+         private int value;
+
+         public Entry(int key, int value) {
+             this.key = key;
+             this.value = value;
+         }
+
+         public int getValue() {
+             return value;
+         }
+         public int getKey() {
+             return key;
+         }
+         public void setValue(int value) {
+             this.value = value;
+         }
+     }
+    static final int default_size = 16;
+    static final double default_load_factor = 0.75;
+
+    int noOfElements;
+    List<Entry>[] table;
+
+    public MyHashMap(){
+        noOfElements = 0;
+        table = new List[default_size];
+    }
+
+
+    public void put(int key, int value){
+        List<Entry> cell = getCell(key);
+
+        for(Entry entry:cell){
+            if(entry.getKey() == key){
+                entry.setValue(value);
+                return;
+            }
+        }
+        noOfElements++;
+        cell.add(new Entry(key,value));
+    }
+
+    public int get(int key){
+        List<Entry> cell = getCell(key);
+
+        for(Entry entry :cell){
+            if(entry.getKey() == key){
+                return entry.getValue();
+            }
+        }
+        return -1;
+    }
+
+    public void remove(int key){
+        List<Entry> cell = getCell(key);
+
+        Iterator<Entry> itr = cell.iterator();
+        while(itr.hasNext()){
+            Entry cur = itr.next();
+
+            if(cur.getKey() == key){
+                noOfElements --;
+                itr.remove();
+                return;
+            }
+        }
+    }
+
+
+    private List<Entry> getCell(int key) {
+        int hash = key % table.length;
+
+        if(table[hash] == null){
+            table[hash] = new LinkedList<>();
+        }
+        return table[hash];
+    }
+
+
+    public void rebuildTable(){
+        if(default_load_factor*table.length > noOfElements){ return;}
+        List<Entry> []oldTable = table;
+        table = new List[oldTable.length*2];
+
+
+
+        for(List<Entry> row:oldTable){
+            for(Entry entry :row){
+                put(entry.getKey() ,entry.getValue());
+            }
+        }
+    }
+    public static void main(String []arg){
+        MyHashMap map = new MyHashMap();
+        map.put(1,2);
+        map.put(2,3);
+        map.put(3,4);
+}}
