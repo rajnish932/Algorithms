@@ -1,0 +1,127 @@
+package com.lamresearch.dtocm.cProgramming.array;
+
+import java.util.*;
+
+public class SlidingWindowsMax {
+    public static void main(String arg[]) {
+        //int wind[] = {1, 2, 3, 1, 4, 5, 2, 3, 6};
+       // int wind[] = {1,-1};
+        //int wind[] = {8,2,4};
+        int wind[] = {1,2,3,1,2};
+        int K = 1;
+        //  List<Integer> list = windowSlidingMax(wind,K);
+        List<Integer> list = windowSlidingMax(wind,K);
+        System.out.println(Collections.max(list));
+      //  printMax(wind, K);
+        for (int l : list) {
+            System.out.print(l + "     ");
+        }
+    }
+
+//    static void printMax(int arr[], int k) {
+//
+//        int n = arr.length;
+//        // Create a Double Ended Queue, Qi that will store indexes of array elements
+//        // The queue will store indexes of useful elements in every window and it will
+//        // maintain decreasing order of values from front to rear in Qi, i.e.,
+//        // arr[Qi.front[]] to arr[Qi.rear()] are sorted in decreasing order
+//        Deque<Integer> Qi = new LinkedList<Integer>();
+//
+//        /* Process first k (or first window) elements of array */
+//        int i;
+//        for (i = 0; i < k; ++i) {
+//            // For every element, the previous smaller elements are useless so
+//            // remove them from Qi
+//            while (!Qi.isEmpty() && arr[i] >= arr[Qi.peekLast()])
+//                Qi.removeLast(); // Remove from rear
+//
+//            // Add new element at rear of queue
+//            Qi.addLast(i);
+//        }
+//
+//        // Process rest of the elements, i.e., from arr[k] to arr[n-1]
+//        for (; i < n; ++i) {
+//            // The element at the front of the queue is the largest element of
+//            // previous window, so print it
+//            System.out.print(arr[Qi.peek()] + " ");
+//
+//            // Remove the elements which are out of this window
+//            while ((!Qi.isEmpty()) && Qi.peek() <= i - k)
+//                Qi.removeFirst();
+//
+//            // Remove all elements smaller than the currently
+//            // being added element (remove useless elements)
+//            while ((!Qi.isEmpty()) && arr[i] >= arr[Qi.peekLast()])
+//                Qi.removeLast();
+//
+//            // Add current element at the rear of Qi
+//            Qi.addLast(i);
+//        }
+//
+//        // Print the maximum element of last window
+//        System.out.print(arr[Qi.peek()]);
+//    }
+//}
+
+
+
+/*
+Simple Approach is - we need to put the maximum element of each windom at the starting of the LinkedList. So for that-
+
+If the current element is greater than the present elements then we need to remove those elements until when the LinkedList is not empty & then put that current element in the LinkedList.
+If the current element is smaller than the present elements then simply put those elements but checking condition is if (window size == element present in the LinkedList-Store index of the elements in the LinkedList,So this condition is simple to calculate via ---->window size == current index - index present at the first in LinkedList) then simply remove the first element of the LinkedList.
+    
+    
+    */
+
+    private static List<Integer> windowSlidingMax(int[] nums, int k) {
+
+        LinkedList<Integer> l = new LinkedList<>();
+        int n = nums.length;
+       // if(n==1)return nums;
+        int res[] = new int[n-k+1];
+        l.add(0);
+        for(int i=1;i<k;i++){
+            while(!l.isEmpty() && nums[i] >= nums[l.getLast()])
+                l.removeLast();
+            l.add(i);
+        }
+        int j = 0;
+        for(int i=k;i<n;i++){
+            res[j++] = nums[l.getFirst()];
+            if(i-l.getFirst() == k)
+                l.removeFirst();
+            while(!l.isEmpty() && nums[i] >= nums[l.getLast()])
+                l.removeLast();
+
+            l.add(i);
+        }
+        res[j] = nums[l.getFirst()];
+        List<Integer> ll = new ArrayList();
+
+
+        for(int i = 0;i<res.length;i++){
+            ll.add(res[i]);
+        }
+        return ll;
+
+
+
+
+//        List<Integer> list = new ArrayList<>();
+//        int n = wind.length;
+//
+//        for(int i = 0;i<=n-k;i++){
+//            int max = wind[i];
+//            for(int j =1;j<k;j++) {
+//                if (wind[i + j] <max) {
+//                    max = wind[i + j];
+//                }
+//            }
+//                list.add(max);
+//
+//        }
+//        return list;
+    }
+
+}
