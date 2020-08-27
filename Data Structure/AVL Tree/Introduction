@@ -7,7 +7,6 @@ we can guarantee an upper bound of O(Logn) for all these operations. The height 
 
 
 
-
 public class AVLTree {
     class Node{
         int data;
