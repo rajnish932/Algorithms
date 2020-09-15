@@ -1,0 +1,54 @@
+package com.lamresearch.dtocm.cProgramming.string;
+
+public class longestRepeatingnonOverlappingSubString {
+    public static void main(String []arg){
+        //String str = "geeksforgeeks";
+        //String str = "aab";
+        String str ="banana";
+        System.out.println(longestRepeatedSubstring(str));
+    }
+
+    private static String longestRepeatedSubstring(String str) {
+        int n = str.length();
+        // building table in bottom-up manner
+        int LCS[][] = new int[n+1][n+1];
+
+        String result = "";
+        int result_length = 0;
+        int i, index = 0;
+        for(i = 1; i<=n ;i++){
+            for(int j = i+1;j<=n; j++){
+                //( j-i) > LCS[i-1][j-1] to remove overlapping
+                if(str.charAt(i-1) == str.charAt(j-1) && LCS[i-1][j-1] < (j -i))
+                {
+
+                   LCS[i][j] =  LCS[i-1][j-1] +1;
+                   System.out.println(LCS[i][j]+"   ");
+                   if(LCS[i][j] > result_length){
+                       result_length = LCS[i][j];
+                       index = Math.max(i, index);
+                       System.out.println(index + "   "+ result_length);
+                   }
+                   else LCS[i][j] = 0;
+                }
+            }
+        }
+
+        for(int ii = 0; ii<LCS.length;ii++){
+            for(int jj = 0;jj<LCS[0].length;jj++){
+                //System.out.print(LCS[ii][jj] +"  kjkj ");
+            }
+            System.out.println("");
+
+        }
+
+        if(result_length > 0){
+            for(i = index -result_length +1; i<= index;i++){
+                result += str.charAt(i-1);
+            }
+        }
+
+
+        return result;
+    }
+}
